@@ -14,10 +14,28 @@ app.get('/', (req, res) => {
 })
 
 app.get('/student', (req, res) => {
+    if (req.params && req.params.id) {
+      res.json({message: studentArr.filter(s => s.id === req.params.id)})
+    }
+    
     res.json({message: studentArr})
 })
 
 app.post('/student', (req, res) => {
+  studentArr.push(req.body);
+  console.log(req.body)
+  console.log(studentArr)
+  res.send('sucess')
+})
+
+app.patch('/student', (req, res) => {
+  studentArr.push(req.body);
+  console.log(req.body)
+  console.log(studentArr)
+  res.send('sucess')
+})
+
+app.delete('/student', (req, res) => {
   studentArr.push(req.body);
   console.log(req.body)
   console.log(studentArr)
