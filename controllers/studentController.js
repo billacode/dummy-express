@@ -4,8 +4,8 @@ const createStudent = async (req, res) => {
     const { name, contactNo, email, university, course, startDate, 
         endDate, sponsor, files} = req.body;
 
-    let start = new Date();
-    let end = new Date();
+    let start = startDate ? new Date(startDate) : '';
+    let end = endDate ? new Date(endDate) : '';
 
     try {
         DatabaseController.connectDb();
@@ -43,12 +43,17 @@ const getStudent = async (req, res) => {
 
 const updateStudent = async (req, res) => {
     const { id } = req.query;
-    const { name, contactNo, email, files} = req.body;
+    const { name, contactNo, email, university, course, startDate, 
+        endDate, sponsor, files} = req.body;
+
+    let start = startDate ? new Date(startDate) : '';
+    let end = endDate ? new Date(endDate) : '';
 
     try {
         DatabaseController.connectDb();
-        const response = await DatabaseController.query(`UPDATE students SET name=$1, "contactNo"=$2, email=$3, files=$4
-        WHERE id=$5`, [name, contactNo, email, files, id]);
+        const response = await DatabaseController.query(`UPDATE students SET name=$1, "contactNo"=$2, email=$3, university=$4,
+        course=$5, "startDate"=$6, "endDate"=$7, sponsor=$8, files=$9
+        WHERE id=$10`, [name, contactNo, email, university, course, start, end, sponsor, files, id]);
     
         DatabaseController.disconnectDb();
         res.send({message: response});
