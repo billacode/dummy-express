@@ -23,10 +23,10 @@ const connectDb = async () => {
 
 const disconnectDb = async () => {
     try {
-        await pool.end();
+        if (pool) await pool.end();
         pool = null;
     } catch (error) {
-        console.log(error)
+        console.log(error.message)
     }
 }
 

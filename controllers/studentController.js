@@ -1,19 +1,16 @@
 const DatabaseController = require('./databaseController');
-const parseDate = require('postgres-date')
-let studentArr = [];
 
 const createStudent = async (req, res) => {
     const { name, contactNo, email, university, course, startDate, 
         endDate, sponsor, files} = req.body;
-    console.log(startDate);
 
     let start = new Date();
     let end = new Date();
 
     try {
         DatabaseController.connectDb();
-        const response = await DatabaseController.query(`INSERT INTO students (name, contactNo, email, university, course, startDate, 
-            endDate, sponsor, files) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)`, [name, contactNo, email, university, course, start, 
+        const response = await DatabaseController.query(`INSERT INTO students (name, "contactNo", email, university, course, "startDate", 
+            "endDate", sponsor, files) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)`, [name, contactNo, email, university, course, start, 
                 end, sponsor, files]);
     
         DatabaseController.disconnectDb();
@@ -34,28 +31,44 @@ const getStudent = async (req, res) => {
         if (id) {
             response = await DatabaseController.query(`select * from students where id=$1`, [id]);
         } else {
-            response = await DatabaseController.query(`select * from students`);
+            response = await DatabaseController.query(`select * from students order by id ASC`);
         }
     
         DatabaseController.disconnectDb();
-        res.json({message: response.rows});
+        res.json({message: response && response.rows ? response.rows : []});
     } catch (e) {
         res.json({error: e, message: e.message});
     }
 }
 
-const updateStudent = (req, res) => {
-    studentArr.push(req.body);
-    console.log(req.body)
-    console.log(studentArr)
-    res.send('sucess')
+const updateStudent = async (req, res) => {
+    const { id } = req.query;
+    const { name, contactNo, email, files} = req.body;
+
+    try {
+        DatabaseController.connectDb();
+        const response = await DatabaseController.query(`UPDATE students SET name=$1, "contactNo"=$2, email=$3, files=$4
+        WHERE id=$5`, [name, contactNo, email, files, id]);
+    
+        DatabaseController.disconnectDb();
+        res.send({message: response});
+    } catch (e) {
+        res.json({error: e, message: e.message});
+    }
 }
 
-const deleteStudent = (req, res) => {
-    studentArr.push(req.body);
-    console.log(req.body)
-    console.log(studentArr)
-    res.send('sucess')
+const deleteStudent = async (req, res) => {
+    const { id } = req.query;
+
+    try {
+        DatabaseController.connectDb();
+        const response = await DatabaseController.query(`DELETE FROM students WHERE id=$1`, [id]);
+    
+        DatabaseController.disconnectDb();
+        res.send({message: response});
+    } catch (e) {
+        res.json({error: e, message: e.message});
+    }
 }
 
 module.exports = {
