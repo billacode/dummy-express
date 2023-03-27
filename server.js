@@ -1,51 +1,21 @@
-const express = require('express')
-const app = express()
-const cors = require('cors')
+const express = require('express');
+const app = express();
+const cors = require('cors');
+const studentRouter = require('./routes/studentRoute');
+const sponsorRouter = require('./routes/sponsorRoute');
 
-const port = 3000
+const port = 3000;
 
 app.use(cors());
 app.use(express.json());
 
-let studentArr = [];
+app.use('/student', studentRouter);
+app.use('/sponsor', sponsorRouter);
 
 app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
-
-app.get('/student', (req, res) => {
-    if (req.params && req.params.id) {
-      res.json({message: studentArr.filter(s => s.id === req.params.id)})
-    }
-    
-    res.json({message: studentArr})
-})
-
-app.post('/student', (req, res) => {
-  studentArr.push(req.body);
-  console.log(req.body)
-  console.log(studentArr)
-  res.send('sucess')
-})
-
-app.patch('/student', (req, res) => {
-  studentArr.push(req.body);
-  console.log(req.body)
-  console.log(studentArr)
-  res.send('sucess')
-})
-
-app.delete('/student', (req, res) => {
-  studentArr.push(req.body);
-  console.log(req.body)
-  console.log(studentArr)
-  res.send('sucess')
-})
-
-app.get('/sponsor', (req, res) => {
-  res.json({message: [{id: '1111', name: 'geetha'}]})
-})
+  res.send('Serendib WS is active');
+});
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
-})
+});
