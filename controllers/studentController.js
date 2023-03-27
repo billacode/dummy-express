@@ -4,14 +4,17 @@ const createStudent = async (req, res) => {
     const { name, contactNo, email, university, course, startDate, 
         endDate, sponsor, files} = req.body;
 
-    let start = startDate ? new Date(startDate) : '';
-    let end = endDate ? new Date(endDate) : '';
+        let start = startDate ? new Date(startDate) : new Date();
+        let end = endDate ? new Date(endDate) : new Date();
+    
+        let fileArr = files ? files : [];
+        console.log(files);
 
     try {
         DatabaseController.connectDb();
         const response = await DatabaseController.query(`INSERT INTO students (name, "contactNo", email, university, course, "startDate", 
             "endDate", sponsor, files) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)`, [name, contactNo, email, university, course, start, 
-                end, sponsor, files]);
+                end, sponsor, fileArr]);
     
         DatabaseController.disconnectDb();
         res.json({message: response});
