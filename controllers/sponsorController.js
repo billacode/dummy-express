@@ -3,10 +3,13 @@ const DatabaseController = require('./databaseController');
 const createSponsor = async (req, res) => {
     const { name, contactNo, email, files} = req.body;
 
+    let fileArr = files ? files : [];
+    console.log(files);
+
     try {
         DatabaseController.connectDb();
         const response = await DatabaseController.query(`INSERT INTO sponsors (name, "contactNo", email, files) 
-        VALUES($1, $2, $3, $4)`, [name, contactNo, email, files]);
+        VALUES($1, $2, $3, $4)`, [name, contactNo, email, fileArr]);
     
         DatabaseController.disconnectDb();
         res.json({message: response});
@@ -40,10 +43,13 @@ const updateSponsor = async (req, res) => {
     const { id } = req.query;
     const { name, contactNo, email, files} = req.body;
 
+    let fileArr = files ? files : [];
+    console.log(files);
+
     try {
         DatabaseController.connectDb();
         const response = await DatabaseController.query(`UPDATE sponsors SET name=$1, "contactNo"=$2, email=$3, files=$4
-        WHERE id=$5`, [name, contactNo, email, files, id]);
+        WHERE id=$5`, [name, contactNo, email, fileArr, id]);
     
         DatabaseController.disconnectDb();
         res.send({message: response});
