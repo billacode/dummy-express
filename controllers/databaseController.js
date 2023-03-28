@@ -13,14 +13,6 @@ const pool = new Pool({
     idleTimeoutMillis: 30000
 });
 
-const connectDb = async () => {
-    
-}
-
-const disconnectDb = async () => {
-
-}
-
 const query = async (queryString, values) => {
     try {
         return await pool.query(queryString, values);
@@ -30,7 +22,5 @@ const query = async (queryString, values) => {
 }
 
 module.exports = {
-    query,
-    connectDb,
-    disconnectDb
+    query
 }
