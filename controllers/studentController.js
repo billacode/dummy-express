@@ -22,7 +22,6 @@ const createStudent = async (req, res) => {
 
 const getStudent = async (req, res) => {
     const { id } = req.query;
-    console.log(id)
 
     try {
         let response = null;

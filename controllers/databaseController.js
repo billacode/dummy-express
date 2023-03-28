@@ -14,10 +14,8 @@ const pool = new Pool({
 
 const query = async (queryString, values) => {
     try {
-        const client = await pool.connect();
+        await pool.connect();
         const results = await pool.query(queryString, values);
-
-        client.release();
 
         return results;
     } catch (error) {
