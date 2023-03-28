@@ -1,4 +1,4 @@
-const { Pool } = require("pg");
+const { Client } = require("pg");
 const dotenv = require("dotenv");
 dotenv.config();
  
@@ -6,7 +6,7 @@ let pool = null;
 
 const connectDb = async () => {
     try {
-        pool = new Pool({
+        pool = new Client({
             user: process.env.PGUSER,
             host: process.env.PGHOST,
             database: process.env.PGDATABASE,
