@@ -8,7 +8,6 @@ const createStudent = async (req, res) => {
         let end = endDate ? new Date(endDate) : new Date();
     
         let fileArr = files ? files : [];
-        console.log(files);
 
     try {
         const response = await DatabaseController.query(`INSERT INTO students (name, "contactNo", email, university, course, "startDate", 
@@ -23,7 +22,6 @@ const createStudent = async (req, res) => {
 
 const getStudent = async (req, res) => {
     const { id } = req.query;
-    console.log(id)
 
     try {
         let response = null;
@@ -49,7 +47,6 @@ const updateStudent = async (req, res) => {
     let end = endDate ? new Date(endDate) : new Date();
 
     let fileArr = files ? files : [];
-    console.log(files);
 
     try {
         const response = await DatabaseController.query(`UPDATE students SET name=$1, "contactNo"=$2, email=$3, university=$4,

@@ -4,7 +4,6 @@ const createSponsor = async (req, res) => {
     const { name, contactNo, email, files} = req.body;
 
     let fileArr = files ? files : [];
-    console.log(files);
 
     try {
         const response = await DatabaseController.query(`INSERT INTO sponsors (name, "contactNo", email, files) 
@@ -18,7 +17,6 @@ const createSponsor = async (req, res) => {
 
 const getSponsor = async (req, res) => {
     const { id } = req.query;
-    console.log(id)
 
     try {
         let response = null;
@@ -40,7 +38,6 @@ const updateSponsor = async (req, res) => {
     const { name, contactNo, email, files} = req.body;
 
     let fileArr = files ? files : [];
-    console.log(files);
 
     try {
         const response = await DatabaseController.query(`UPDATE sponsors SET name=$1, "contactNo"=$2, email=$3, files=$4
